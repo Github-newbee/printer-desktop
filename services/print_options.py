@@ -5,8 +5,8 @@ from typing import Final
 
 DEFAULT_PAPER_SIZE = "A4"
 PAPER_SPECS: Final[dict[str, dict[str, object]]] = {
-    "A4": {"code": "A4", "label": "A4", "width_mm": 210, "height_mm": 297, "sumatra_paperkind": 9},
-    "A5": {"code": "A5", "label": "A5", "width_mm": 148, "height_mm": 210, "sumatra_paperkind": 11},
+    "A4": {"code": "A4", "label": "A4", "width_mm": 210, "height_mm": 297},
+    "A5": {"code": "A5", "label": "A5", "width_mm": 148, "height_mm": 210},
 }
 
 
@@ -29,6 +29,6 @@ def get_paper_size_options() -> list[dict[str, object]]:
     ]
 
 
-def get_sumatra_paper_setting(paper_size: str | None) -> str | None:
-    paperkind = PAPER_SPECS[normalize_paper_size(paper_size)].get("sumatra_paperkind")
-    return f"paperkind={paperkind}" if paperkind else None
+def get_sumatra_paper_setting(paper_size: str | None) -> str:
+    normalized_paper_size = normalize_paper_size(paper_size)
+    return f"paper={normalized_paper_size}"

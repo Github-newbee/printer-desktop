@@ -5,6 +5,8 @@ import unittest
 from pathlib import Path
 
 from desktop_app import count_pdf_pages, pages_in_range
+from services.print_options import get_sumatra_paper_setting
+from workers.print_worker import PrintWorker
 
 
 class DesktopHelperTests(unittest.TestCase):
@@ -26,6 +28,16 @@ class DesktopHelperTests(unittest.TestCase):
         self.assertEqual(pages_in_range("1-2,4", 3), 3)
         self.assertEqual(pages_in_range("", 5), 5)
 
+
+    def test_sumatra_settings_use_selected_paper_and_orientation(self) -> None:
+        worker = PrintWorker.__new__(PrintWorker)
+
+        portrait = worker._print_settings({"paper_size": "A5", "orientation": "portrait"})
+        landscape = worker._print_settings({"paper_size": "A5", "orientation": "landscape"})
+
+        self.assertEqual(get_sumatra_paper_setting("A5"), "paper=A5")
+        self.assertEqual(portrait, "portrait,disable-auto-rotation,paper=A5")
+        self.assertEqual(landscape, "landscape,disable-auto-rotation,paper=A5")
 
 if __name__ == "__main__":
     unittest.main()

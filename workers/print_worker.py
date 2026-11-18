@@ -94,7 +94,7 @@ class PrintWorker:
             settings.append(f"{copies}x")
         orientation = str(job.get("orientation") or "").strip().lower()
         if orientation == "portrait":
-            settings.append("disable-auto-rotation")
+            settings.extend(["portrait", "disable-auto-rotation"])
         elif orientation == "landscape":
             settings.extend(["landscape", "disable-auto-rotation"])
         paper_setting = get_sumatra_paper_setting(str(job.get("paper_size") or "A4"))
